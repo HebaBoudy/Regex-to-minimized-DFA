@@ -7,31 +7,16 @@ def read_input_file(file_name):
     with open(file_name) as f:
         return f.read().strip()  
     
-
-# def cleanup() :
-#     if os.path.exists("output_files/dfa") : 
-#         os.remove("output_files/dfa")
-#     if os.path.exists("output_files/nfa") :
-#         os.remove("output_files/nfa")
-#     if os.path.exists("output_files/minimized_dfa") :
-#         os.remove("output_files/minimized_dfa")
-# def write_to_file(file_name, content):
-#     with open(file_name, 'w') as f:
-#         f.write(content) 
-
-# write output to file in directory output_files/json_files 
 def write_output_to_file(file_name, content):
    
     output_dir = 'output_files/json_files'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)
     
-    # Define the full file path
     file_path = os.path.join(output_dir, file_name)
-    content = json.dumps(content, indent=4)  # Use indent=4 for pretty printing
-    # Write the dictionary as formatted JSON
+    content = json.dumps(content, indent=4) 
     with open(file_path, 'w') as f:
-        json.dump(content)  # Use indent=4 for pretty printing 
+        json.dump(content)
 
 def rename(dfa) :
     counter = 1 #TODO : LET THIS COUNTER =0 ANA 3MLTO KDA BS 3SHAN BA TEST 
