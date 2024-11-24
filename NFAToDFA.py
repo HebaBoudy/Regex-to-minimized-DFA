@@ -11,7 +11,12 @@ def epsilonClosure(state : State) -> Set[State] :
             states.update(epsilonClosure(transition.destination))
 
     return states 
-
+def rename(dfa) :
+    counter = 1 #TODO : LET THIS COUNTER =0 ANA 3MLTO KDA BS 3SHAN BA TEST 
+    for state in dfa.states : 
+        state.state_name = 'S'+ str(counter) 
+        counter += 1
+    return dfa
 
 def subsetConstruction(nfa : NFA) -> DFA :
     
@@ -52,17 +57,11 @@ def subsetConstruction(nfa : NFA) -> DFA :
                 new_dfa_state = existing_dfa_state
 
             current_dfa_state.add_transition(key, new_dfa_state) 
-            renameDFA(dfa)
+            rename(dfa)
     return dfa 
 # dfa = subsetConstruction(nfa) 
 #print (dfa)
 
-def rename(dfa) :
-    counter = 1 #TODO : LET THIS COUNTER =0 ANA 3MLTO KDA BS 3SHAN BA TEST 
-    for state in dfa.states : 
-        state.state_name = 'S'+ str(counter) 
-        counter += 1
-    return dfa
+
 # print("hello",(dfa.states[0].transitions))
 # print("**************")
-# print(renameDFA(dfa)) 

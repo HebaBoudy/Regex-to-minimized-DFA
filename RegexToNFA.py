@@ -64,7 +64,7 @@ def constructNFA(input ) :
     return stack_NFA[0] 
 
 def ThomsonsConstruction (input : str) -> NFA : 
-    preprocessed = preprocessing(input) 
+    preprocessed = preprocessing_v2(input) 
     shunting_yard = shuntingYard(preprocessed) 
     nfa = constructNFA(shunting_yard) 
     rename(nfa)

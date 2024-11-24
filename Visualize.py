@@ -50,6 +50,7 @@ def visualize(nfa_json , filename : str):
     if not os.path.exists(output_folder):
         os.makedirs(output_folder)
 
-    # Specify the filepath to save the graph
-    path = os.path.join(output_folder, filename)
-    dot.render(path, view=True)
+    dot.render(filename= filename, directory= output_folder, view = True ,cleanup = True, format='png')   
+    # delete files named dfa ,nfa,minimized_dfa 
+
+
