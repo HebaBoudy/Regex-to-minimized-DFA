@@ -1,7 +1,6 @@
 from CustomDataTypes import *
-from Preprocessing import * 
 from ShuntingYard import *
-from NFAToDFA import rename
+
 '''
 Finally : Thomsons construction Algorithm 
 '''
@@ -64,15 +63,8 @@ def constructNFA(input ) :
     return stack_NFA[0] 
 
 def ThomsonsConstruction (input : str) -> NFA : 
-    preprocessed = preprocessing_v2(input) 
-    shunting_yard = shuntingYard(preprocessed) 
+    shunting_yard = shuntingYard(input) 
     nfa = constructNFA(shunting_yard) 
-    rename(nfa)
     return nfa
-#nfa = ThomsonsConstruction('0|1(0|1)*00')
-# nfa = ThomsonsConstruction('(a|b)*a(a|b)(a|b)')
-# nfa_json = nfa.to_dict()
-# Print the JSON-formatted string
-#print(json.dumps(nfa_json, indent=2))
-# visualize_nfa(nfa_json)
+
    

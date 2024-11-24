@@ -1,5 +1,4 @@
 from CustomDataTypes import * 
-from NFAToDFA import rename
 def get_group_index(state: DFAState, groups: List[Set[DFAState]]) -> int:
         for i, group in enumerate(groups):
             if state in group:
@@ -102,7 +101,6 @@ def minimizeDFA(dfa : DFA) -> DFA:
     start_state = dfa.start_state
     start_state_group_index = get_group_index(start_state, groups)
     new_dfa=convertGroupsToDFA(groups,start_state_group_index) 
-    rename(new_dfa)
     return new_dfa
 #print (minimizeDFA(dfa))
 # print(len(minimizeDFA(dfa)))
