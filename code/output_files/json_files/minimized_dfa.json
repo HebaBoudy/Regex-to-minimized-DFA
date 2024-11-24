@@ -21,7 +21,7 @@
   },
   "S6": {
     "isTerminatingState": false,
-    "d": "S2",
-    "e": "S2"
+    "e": "S2",
+    "d": "S2"
   }
 }

@@ -14,8 +14,8 @@
   },
   "S4": {
     "isTerminatingState": false,
-    "d": "S5",
-    "e": "S6"
+    "e": "S5",
+    "d": "S6"
   },
   "S5": {
     "isTerminatingState": false,
