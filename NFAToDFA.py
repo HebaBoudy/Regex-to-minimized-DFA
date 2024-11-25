@@ -52,7 +52,7 @@ def subsetConstruction(nfa : NFA) -> DFA :
                 new_dfa_state = existing_dfa_state
 
             current_dfa_state.add_transition(key, new_dfa_state) 
-            renameDFA(dfa)
+            rename(dfa)
     return dfa 
 # dfa = subsetConstruction(nfa) 
 #print (dfa)

@@ -11,8 +11,9 @@ def validate_input(input:str) :
                     return False   
                 if input[i-1] > input[i+1] : 
                     return False
-            if char not in {'+','*','|','(',')',']','[','?','.'}:
+            elif char not in {'+','*','|','(',')',']','[','?','.'}:
                 return False  
+            
     stack = []
     for char in input : 
         if char in {'(','['} : 
@@ -58,29 +59,37 @@ def preprocessing(input : str) :
     step_1 = re.sub(r'(\w)\?', r'(\1|~)', input)
     #Step2: Replace one or more symbol '+'
     step_2 = re.sub(r'(\w)\+', r'\1\1*', step_1)
+    sub_step_2 = re.sub(r'(\[(\w\-\w)*\w*\])\+', r'\1\1*', step_2)
     #Step3: Add concat symbol before every [ or (  if they are not at the start of the regex and they are not preceded by ?
     pattern_before = re.compile(r'''
         (?<!^)      # Negative lookbehind assertion to ensure the position is not at the start of the string
         (?<!\?)     # Negative lookbehind assertion to ensure the position is not preceded by '?'
+        (?<!\()
+        (?<!\|)
         (?=[\[\(])  # Positive lookahead assertion to match '[' or '(' without consuming them
     ''', re.VERBOSE)
-    step_3 = pattern_before.sub('?', step_2) 
+    step_3 = pattern_before.sub('?', sub_step_2) 
     #Step 4: Add concat symbol after every ] or ) if they are not the end of regex OR they are not followed by * and not followed by ? 
     pattern_after = re.compile(r'''
         (?<=[\]\)])  # Positive lookbehind assertion to match ']' or ')' without consuming them
         (?!$)        # Negative lookahead assertion to ensure the position is not at the end of the string
         (?![\*\?])   # Negative lookahead assertion to ensure the position is not followed by '*' or '?'
+        (?!\))
+        (?!\|)
+        
     ''', re.VERBOSE)
     step_4 = pattern_after.sub('?', step_3)
     #Step 5 : Add concat after every * if its not the end of regex and its not follwed by star 
     pattern_star = re.compile(r'''
         \*          # Match the '*' character
         (?!$)       # Negative lookahead assertion to ensure the position is not at the end of the string
-        (?![\?])    # Negative lookahead assertion to ensure the position is not followed by '?'                      
+        (?![\?])    # Negative lookahead assertion to ensure the position is not followed by '?'          
+        (?!\))            
     ''', re.VERBOSE)
     step_5 = pattern_star.sub('*?', step_4)
     #Step 6 : Add concat after every alphanum or dot if its followed by alphanumeric or dot 
     pattern_alnum_dot = re.compile(r'''
+        (?<!\-)
         ([a-zA-Z0-9\.])  # Match any alphanumeric character or dot
         (?=[a-zA-Z0-9\.])  # Positive lookahead assertion to ensure it is followed by another alphanumeric character or dot
     ''', re.VERBOSE)
