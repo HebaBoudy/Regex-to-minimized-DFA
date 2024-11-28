@@ -1,7 +1,8 @@
 from graphviz import Digraph 
 import os 
 import json
-
+def is_alphanumeric(char):
+    return char.isalnum() or char == '_' or char == '.' or len(char) > 1
 
 def read_input_file(file_name):
     with open(file_name) as f:
@@ -14,7 +15,7 @@ def write_output_to_file(file_name, content):
         os.makedirs(output_dir)
     
     file_path = os.path.join(output_dir, file_name)
-    # content = json.dumps(content, indent=4) 
+    json.dump(content.to_dict(),fp=open(file_path, 'w'),indent=4)
     with open(file_path, 'w') as f:
         f.write(str(content))
 
@@ -26,15 +27,17 @@ def rename(dfa) :
     return dfa 
 
 def validate_input(input:str) : 
+    if not input : 
+        return False
     # check for the substring () or [] 
     if input.find('()') != -1 or input.find('[]') != -1 : 
         return False
     for i,char in enumerate(input) : 
-        if not char.isalnum() : 
+        if not is_alphanumeric(char) : 
             if char =='-' : 
                 if i == 0 or i == len(input)-1 : 
                     return False 
-                if not input[i-1].isalnum() or not input[i+1].isalnum() : 
+                if not is_alphanumeric( input[i-1]) or not is_alphanumeric( input[i+1]) : 
                     return False   
                 if input[i-1] > input[i+1] : 
                     return False
@@ -72,7 +75,11 @@ def visualize(nfa_json , filename : str):
         is_accepting = state_info["isTerminatingState"]
 
         # Customize node style based on state type
-        if state_name == start_state:
+        # if the node is start and accepting state then double circle and green color border  with blue border 
+        if state_name == start_state and is_accepting: 
+            dot.node(state_name, shape='doublecircle', color='green', label=state_name)  # Start and accepting state
+        
+        elif state_name == start_state:
             dot.node(state_name, shape='circle', color='green', label=state_name)  # Start state
         elif is_accepting:
             dot.node(state_name, shape='doublecircle', color='blue', label=state_name)  # Accepting state
@@ -105,5 +112,4 @@ def visualize(nfa_json , filename : str):
         os.makedirs(output_folder)
 
     dot.render(filename= filename, directory= output_folder, view = True ,cleanup = True, format='png')   
-    # delete files named dfa ,nfa,minimized_dfa 
-
+   

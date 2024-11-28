@@ -2,9 +2,21 @@
   "startingState": "S1",
   "S1": {
     "isTerminatingState": false,
-    "[A-Za-z]": "S2"
+    "j": "S2"
   },
   "S2": {
+    "isTerminatingState": false,
+    "o": "S3"
+  },
+  "S3": {
+    "isTerminatingState": false,
+    "j": "S4"
+  },
+  "S4": {
+    "isTerminatingState": false,
+    "o": "S5"
+  },
+  "S5": {
     "isTerminatingState": true
   }
 }

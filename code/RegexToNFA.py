@@ -1,6 +1,6 @@
 from CustomDataTypes import *
 from ShuntingYard import *
-
+from Utils import is_alphanumeric
 '''
 Finally : Thomsons construction Algorithm 
 '''
@@ -47,7 +47,7 @@ def concatinate_nfa(operand1: NFA , operand2: NFA) :
 def constructNFA(input ) : 
     stack_NFA = []
     for char in input : 
-        if char.isalnum() or char == '~' or len(char) > 1 : 
+        if is_alphanumeric(char) or char == '~' : 
             stack_NFA.append(alphanumeric_nfa(char))  
         elif char == '*':
             stack_NFA.append(zero_or_more_nfa(stack_NFA.pop()))

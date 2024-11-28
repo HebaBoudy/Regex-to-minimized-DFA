@@ -78,7 +78,6 @@ def minimizeDFA(dfa : DFA) -> DFA:
     
     groups : List[Set[DFAState]] = [accepting_states ,  none_accepting_states] 
     groups = partition_groups_based_on_transitions(groups)
-   
     # PASS TWO : 
     while True:
         new_groups: List[Set[DFAState]] = []

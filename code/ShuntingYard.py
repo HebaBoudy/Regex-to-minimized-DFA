@@ -1,3 +1,4 @@
+from Utils import is_alphanumeric
 
 def split_input(input: str):
     split_list = []
@@ -22,36 +23,67 @@ def preprocessing(input : str) :
     step_1 = ""
     for i,char in enumerate(input) :
         if i != 0 and char == '?' :
-            # pop the last caracter and add ( last_char | ~) 
-            step_1 = step_1[:-1] + '(' + step_1[-1] + '|~)'
+            if input[i-1] == ')' or input[i-1] == ']' : 
+                word = "" 
+                # Find the word before the closing bracket until the opening bracket 
+                for j in range(i-1,-1,-1) : 
+                    if input[j] == '(' or input[j] == '[' : 
+                        break 
+                    word = input[j] + word 
+                step_1 = step_1[:len(step_1)-len(word)-1]
+                # replace [abc]? if found in input with ([abc]|~ ) 
+                if input[j] == '[' : 
+                    # trim the last n characters from step 1 until the opening bracket 
+                    step_1 += '([' + word  + '|' + '~' + ')'
+                # replace (abc)? if found in input with (abc|~ )
+                else :  
+                    step_1 += '(('+ word  + '|' + '~' + ')' 
+            else : 
+                step_1 = step_1[:len(step_1)-1]
+                step_1 += '(' + input[i-1] + '|~)'
         else : 
             step_1 += char
     # Step 2 : Replace one or more symbol '+'
     step_2 = ""
     for i,char in enumerate(step_1) : 
-        if i != 0 and char == '+' :
-            step_2 += step_1[i-1] + '*' 
+        if i != 0 and char == '+'  :
+            if  step_1[i-1] == ')' or step_1[i-1] == ']' : 
+                word = "" 
+                # Find the word before the closing bracket until the opening bracket 
+                for j in range(i-1,-1,-1) : 
+                    if step_1[j] == '(' or step_1[j] == '[' : 
+                        break 
+                    word = step_1[j] + word 
+                # replace [abc]+ if found in step 1 with [abc][abc]* 
+                if step_1[j] == '[' : 
+                    step_2 += '[' + word  + '*' 
+                # replace (abc)+ if found in step 1 with (abc)(abc)* 
+                else : 
+                    step_2 += '(' + word + '*' 
+            else :
+                step_2 += step_1[i-1] + '*' 
         else : 
             step_2 += char 
     # Step 3 : Add concat symbol before every [ or (  if they are not at the start of the regex and they are not preceded by ?  and they are not followed by nested brackets (( )) there should not be concat inside 
+    # and not preceded by [ or (   
     
     step_3 = ""
     for i,char in enumerate(step_2) : 
-        if i != 0 and step_2[i-1] != '?' and  step_2[i-1] != '|' and ((char == '[' and step_2[i-1] != '[')or (char == '(' and step_2[i-1] != '(')) : 
+        if i != 0 and step_2[i-1] != '?' and  step_2[i-1] != '|' and (((char == '[' or char == '(' ) and (step_2[i-1] != '[' and step_2[i-1]  != '(' )) ) : 
             step_3 += '?'+char
         else : 
             step_3 += char 
     # Step 4 : Add concat symbol after every ] or ) if they are not the end of regex OR they are not followed by * and not followed by ?and they are not followed by nested brackets (( )) there should not be concat inside 
     step_4 = ""
     for i,char in enumerate(step_3) : 
-        if i != len(step_3)-1 and step_3[i+1] != '*' and step_3[i+1] != '|' and step_3[i+1] != '?' and ((char == ']' and step_3[i+1]!= ']') or (char == ')' and step_3[i+1]!= ')')) : 
+        if i != len(step_3)-1 and step_3[i+1] != '*' and step_3[i+1] != '|' and step_3[i+1] != '?' and (((char == ']' or char == ')' ) and (step_3[i+1] != ']' and step_3[i+1]  != ')' )) ) : 
             step_4 += char + '?'
         else : 
             step_4 += char 
-    # Step 5 : Add concat after every * if its not the end of regex and its not follwed by star
+    # Step 5 : Add concat after every * if its not the end of regex and its not follwed by star and not followed by )
     step_5 = ""
     for i,char in enumerate(step_4) : 
-        if i != len(step_4)-1 and step_4[i+1] != '?' and char == '*' : 
+        if i != len(step_4)-1 and step_4[i+1] != '?' and step_4[i+1] != ')'and char == '*' : 
             step_5 += char + '?'
         else : 
             step_5 += char 
@@ -70,14 +102,15 @@ def preprocessing(input : str) :
         elif (
             not inside_square_brackets  # Ensure we are not inside square brackets
             and i != len(step_5) - 1
-            and (char.isalnum() or char == '.')
-            and (step_5[i + 1].isalnum() or step_5[i + 1] == '.')
+            and (is_alphanumeric(char))
+            and (is_alphanumeric(step_5[i + 1]))
         ):
             step_6 += char + '?'  # Add concat symbol
         else:
             step_6 += char
     print("Step 6:",step_6)
     return (split_input(step_6))
+
 '''
 Postfix notation removes the need for parentheses and allows computer programs to read in 
 mathematical expressions one symbol after the other, instead of worrying about operator precedence 
@@ -92,7 +125,7 @@ def shuntingYard(input) :
     operator_stack = []
     for char in input :
         # If the input is alphanumeric then append to the output regex 
-        if char.isalnum() or char == '.' or len(char) > 1 or char == '~' :
+        if is_alphanumeric(char) or char == '~' :
             out.append(char)
         # If the input is an operator
         elif  char in precedence_dict.keys() :
