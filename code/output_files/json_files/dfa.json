@@ -2,21 +2,9 @@
   "startingState": "S1",
   "S1": {
     "isTerminatingState": false,
-    "j": "S2"
+    "a": "S2"
   },
   "S2": {
-    "isTerminatingState": false,
-    "o": "S3"
-  },
-  "S3": {
-    "isTerminatingState": false,
-    "j": "S4"
-  },
-  "S4": {
-    "isTerminatingState": false,
-    "o": "S5"
-  },
-  "S5": {
     "isTerminatingState": true
   }
 }

@@ -80,10 +80,10 @@ def preprocessing(input : str) :
             step_4 += char + '?'
         else : 
             step_4 += char 
-    # Step 5 : Add concat after every * if its not the end of regex and its not follwed by star and not followed by )
+    # Step 5 : Add concat after every * if its not the end of regex and its not follwed by star and not followed by ) and not followed by |
     step_5 = ""
     for i,char in enumerate(step_4) : 
-        if i != len(step_4)-1 and step_4[i+1] != '?' and step_4[i+1] != ')'and char == '*' : 
+        if i != len(step_4)-1 and step_4[i+1] != '?' and step_4[i+1] != ')' and step_4[i+1] != '|' and char == '*' : 
             step_5 += char + '?'
         else : 
             step_5 += char 

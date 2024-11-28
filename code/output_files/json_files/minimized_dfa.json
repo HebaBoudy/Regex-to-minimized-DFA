@@ -5,18 +5,6 @@
   },
   "S2": {
     "isTerminatingState": false,
-    "j": "S3"
-  },
-  "S3": {
-    "isTerminatingState": false,
-    "o": "S4"
-  },
-  "S4": {
-    "isTerminatingState": false,
-    "j": "S5"
-  },
-  "S5": {
-    "isTerminatingState": false,
-    "o": "S1"
+    "a": "S1"
   }
 }
