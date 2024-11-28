@@ -14,9 +14,9 @@ def write_output_to_file(file_name, content):
         os.makedirs(output_dir)
     
     file_path = os.path.join(output_dir, file_name)
-    content = json.dumps(content, indent=4) 
+    # content = json.dumps(content, indent=4) 
     with open(file_path, 'w') as f:
-        json.dump(content)
+        f.write(str(content))
 
 def rename(dfa) :
     counter = 1 #TODO : LET THIS COUNTER =0 ANA 3MLTO KDA BS 3SHAN BA TEST 
@@ -38,7 +38,7 @@ def validate_input(input:str) :
                     return False   
                 if input[i-1] > input[i+1] : 
                     return False
-            if char not in {'+','*','|','(',')',']','[','?','.'}:
+            elif char not in {'+','*','|','(',')',']','[','?','.'}:
                 return False  
     stack = []
     for char in input : 

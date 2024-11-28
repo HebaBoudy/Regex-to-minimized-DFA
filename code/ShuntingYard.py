@@ -76,6 +76,7 @@ def preprocessing(input : str) :
             step_6 += char + '?'  # Add concat symbol
         else:
             step_6 += char
+    print("Step 6:",step_6)
     return (split_input(step_6))
 '''
 Postfix notation removes the need for parentheses and allows computer programs to read in 
@@ -85,12 +86,13 @@ and parentheses during computation.
 '''
 def shuntingYard(input) :
     input = preprocessing(input)
+    print("Preprocessed input:",input)
     precedence_dict = {'*': 3, '?': 2, '|': 1}
     out =[]
     operator_stack = []
     for char in input :
         # If the input is alphanumeric then append to the output regex 
-        if char.isalnum() or char == '.' or len(char) > 1 :
+        if char.isalnum() or char == '.' or len(char) > 1 or char == '~' :
             out.append(char)
         # If the input is an operator
         elif  char in precedence_dict.keys() :

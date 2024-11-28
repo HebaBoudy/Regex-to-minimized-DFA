@@ -47,7 +47,7 @@ def concatinate_nfa(operand1: NFA , operand2: NFA) :
 def constructNFA(input ) : 
     stack_NFA = []
     for char in input : 
-        if char.isalnum() or char == '~' : 
+        if char.isalnum() or char == '~' or len(char) > 1 : 
             stack_NFA.append(alphanumeric_nfa(char))  
         elif char == '*':
             stack_NFA.append(zero_or_more_nfa(stack_NFA.pop()))
@@ -64,6 +64,7 @@ def constructNFA(input ) :
 
 def ThomsonsConstruction (input : str) -> NFA : 
     shunting_yard = shuntingYard(input) 
+    print("Shunting Yard : ",shunting_yard)
     nfa = constructNFA(shunting_yard) 
     return nfa
 
