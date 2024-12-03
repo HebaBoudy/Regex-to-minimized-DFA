@@ -17,56 +17,63 @@ def split_input(input: str):
             match =  match + char 
     return split_list 
 
-
+def find_matching_open(input, start_idx, opening, closing):
+        stack = 0
+        for i in range(start_idx, -1, -1):
+            if input[i] == closing:
+                stack += 1
+            elif input[i] == opening:
+                stack -= 1
+                if stack == 0:
+                    return i
+        return -1
 def preprocessing(input : str) :
-    # Step 1 : Replace zero or one symbol '?'
+
     step_1 = ""
-    for i,char in enumerate(input) :
-        if i != 0 and char == '?' :
-            if input[i-1] == ')' or input[i-1] == ']' : 
-                word = "" 
-                # Find the word before the closing bracket until the opening bracket 
-                for j in range(i-1,-1,-1) : 
-                    if input[j] == '(' or input[j] == '[' : 
-                        break 
-                    word = input[j] + word 
-                step_1 = step_1[:len(step_1)-len(word)-1]
-                # replace [abc]? if found in input with ([abc]|~ ) 
-                if input[j] == '[' : 
-                    # trim the last n characters from step 1 until the opening bracket 
-                    step_1 += '([' + word  + '|' + '~' + ')'
-                # replace (abc)? if found in input with (abc|~ )
-                else :  
-                    step_1 += '(('+ word  + '|' + '~' + ')' 
-            else : 
-                step_1 = step_1[:len(step_1)-1]
-                step_1 += '(' + input[i-1] + '|~)'
-        else : 
+    i = 0
+    while i < len(input):
+        char = input[i]
+        if char == '?':
+            if step_1 and (step_1[-1] == ')' or step_1[-1] == ']'):
+                matching_idx = find_matching_open(
+                    step_1, len(step_1) - 1, '(' if step_1[-1] == ')' else '[', ')' if step_1[-1] == ')' else ']'
+                )
+                if matching_idx != -1:
+                    content = step_1[matching_idx + 1:-1]
+                    step_1 = step_1[:matching_idx] + f'({content}|~)' if step_1[-1] == ')' else f'[{content}|~]'
+            else:
+                step_1 = step_1[:-1] + f'({step_1[-1]}|~)'
+        else:
             step_1 += char
-    # Step 2 : Replace one or more symbol '+'
+        i += 1
+    print("Input after step 1:", step_1)
+
+    # Step 2: Replace one or more symbol '+'
     step_2 = ""
-    for i,char in enumerate(step_1) : 
-        if i != 0 and char == '+'  :
-            if  step_1[i-1] == ')' or step_1[i-1] == ']' : 
-                word = "" 
-                # Find the word before the closing bracket until the opening bracket 
-                for j in range(i-1,-1,-1) : 
-                    if step_1[j] == '(' or step_1[j] == '[' : 
-                        break 
-                    word = step_1[j] + word 
-                # replace [abc]+ if found in step 1 with [abc][abc]* 
-                if step_1[j] == '[' : 
-                    step_2 += '[' + word  + '*' 
-                # replace (abc)+ if found in step 1 with (abc)(abc)* 
-                else : 
-                    step_2 += '(' + word + '*' 
-            else :
-                step_2 += step_1[i-1] + '*' 
-        else : 
-            step_2 += char 
+    i = 0
+    while i < len(step_1):
+        char = step_1[i]
+        if char == '+':
+            if step_2 and (step_2[-1] == ')' or step_2[-1] == ']'):
+                matching_idx = find_matching_open(
+                    step_2, len(step_2) - 1, '(' if step_2[-1] == ')' else '[', ')' if step_2[-1] == ')' else ']'
+                )
+                if matching_idx != -1:
+                    content = step_2[matching_idx + 1:-1]
+                    step_2 = step_2[:matching_idx] + (
+                        f'({content})({content})*' if step_2[-1] == ')' else f'[{content}][{content}]*'
+                    )
+            else:
+                # Single character handling (e.g., b+ -> bb*)
+                step_2 = step_2[:-1] + f'{step_2[-1]}{step_2[-1]}*'
+        else:
+            step_2 += char
+        i += 1
+
+    print("Input after step 2:", step_2)
     # Step 3 : Add concat symbol before every [ or (  if they are not at the start of the regex and they are not preceded by ?  and they are not followed by nested brackets (( )) there should not be concat inside 
     # and not preceded by [ or (   
-    
+    print("input after step 2:",step_2)
     step_3 = ""
     for i,char in enumerate(step_2) : 
         if i != 0 and step_2[i-1] != '?' and  step_2[i-1] != '|' and (((char == '[' or char == '(' ) and (step_2[i-1] != '[' and step_2[i-1]  != '(' )) ) : 
@@ -74,6 +81,8 @@ def preprocessing(input : str) :
         else : 
             step_3 += char 
     # Step 4 : Add concat symbol after every ] or ) if they are not the end of regex OR they are not followed by * and not followed by ?and they are not followed by nested brackets (( )) there should not be concat inside 
+    print("input after step 3:",step_3)
+    
     step_4 = ""
     for i,char in enumerate(step_3) : 
         if i != len(step_3)-1 and step_3[i+1] != '*' and step_3[i+1] != '|' and step_3[i+1] != '?' and (((char == ']' or char == ')' ) and (step_3[i+1] != ']' and step_3[i+1]  != ')' )) ) : 
@@ -81,6 +90,8 @@ def preprocessing(input : str) :
         else : 
             step_4 += char 
     # Step 5 : Add concat after every * if its not the end of regex and its not follwed by star and not followed by ) and not followed by |
+    print("input after step 4:",step_4)
+    
     step_5 = ""
     for i,char in enumerate(step_4) : 
         if i != len(step_4)-1 and step_4[i+1] != '?' and step_4[i+1] != ')' and step_4[i+1] != '|' and char == '*' : 
@@ -91,6 +102,7 @@ def preprocessing(input : str) :
     # but skip concatenation for characters inside square brackets
     step_6 = ""
     inside_square_brackets = False
+    print("input after step 5:",step_5)
 
     for i, char in enumerate(step_5):
         if char == '[':
@@ -118,6 +130,7 @@ and parentheses during computation.
 
 '''
 def shuntingYard(input) :
+
     input = preprocessing(input)
     print("Preprocessed input:",input)
     precedence_dict = {'*': 3, '?': 2, '|': 1}

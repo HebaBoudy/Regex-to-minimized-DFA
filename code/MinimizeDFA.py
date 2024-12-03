@@ -8,7 +8,10 @@ def create_transition_dict(subgroup: Set[DFAState],  groups: List[Set[DFAState]]
 
     transition_dict: Dict[Tuple[int, ...], Set[DFAState]] = {}
     input_symbols = list(subgroup)[0].get_transitions_inputs() 
-
+    ''' 
+    s1,s2,s3 
+    (1,2,3) -> {s1,s2}
+    '''
     
     for state in subgroup :
         transition_key_elements = []
@@ -31,6 +34,14 @@ def partition_groups_based_on_transitions(groups : List[Set[DFAState]]) -> List[
     for i, group in enumerate(groups) : 
         transitions_dict: Dict[Tuple[str, ...], Set[str]] = {}
         for state in group:
+            ''' 
+            s1 (a,b)
+            s2 (a,b,c)
+            s3 (c)
+
+            (a,b) -> [s1,s4]
+            
+            '''
             transitions = state.get_transitions_inputs()
             if transitions in transitions_dict:
                 transitions_dict[transitions].add(state)
@@ -39,14 +50,6 @@ def partition_groups_based_on_transitions(groups : List[Set[DFAState]]) -> List[
        
         for value in transitions_dict.values() :
             new_groups.append(value) 
-    #         print ("**********************iteration"+str(i)+"************************")
-    #         print(len(new_groups))
-    # print ("old groups length :",len(groups))
-    # print ("new groups length",len(new_groups)) 
-    # print("dict:\n",transitions_dict)
-    # # for i,group in enumerate(new_groups) :
-    # #     print ("**********************g"+str(i)+"************************")
-    # #     print(group)
     return new_groups
 def convertGroupsToDFA(groups : List[Set[DFAState]], start_state_group_index) -> DFA :
     dfa=DFA() 
@@ -79,7 +82,7 @@ def minimizeDFA(dfa : DFA) -> DFA:
     groups : List[Set[DFAState]] = [accepting_states ,  none_accepting_states] 
     groups = partition_groups_based_on_transitions(groups)
     # PASS TWO : 
-    while True:
+    while True:           
         new_groups: List[Set[DFAState]] = []
         for i, group in enumerate(groups): 
             if(len(group) == 1):
@@ -95,7 +98,6 @@ def minimizeDFA(dfa : DFA) -> DFA:
             print("Groups have stabilized, exiting.")
             break
         groups = new_groups
-    
     print("dfa start state",dfa.start_state)
     start_state = dfa.start_state
     start_state_group_index = get_group_index(start_state, groups)

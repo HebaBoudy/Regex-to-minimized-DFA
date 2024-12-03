@@ -2,9 +2,165 @@
   "startingState": "S1",
   "S1": {
     "isTerminatingState": false,
-    "a": "S2"
+    "~": [
+      "S2",
+      "S10"
+    ]
   },
   "S2": {
+    "isTerminatingState": false,
+    "h": "S3"
+  },
+  "S3": {
+    "isTerminatingState": false,
+    "~": "S4"
+  },
+  "S4": {
+    "isTerminatingState": false,
+    "e": "S5"
+  },
+  "S5": {
+    "isTerminatingState": false,
+    "~": "S6"
+  },
+  "S6": {
+    "isTerminatingState": false,
+    "b": "S7"
+  },
+  "S7": {
+    "isTerminatingState": false,
+    "~": "S8"
+  },
+  "S8": {
+    "isTerminatingState": false,
+    "a": "S9"
+  },
+  "S9": {
+    "isTerminatingState": false,
+    "~": "S18"
+  },
+  "S10": {
+    "isTerminatingState": false,
+    "j": "S11"
+  },
+  "S11": {
+    "isTerminatingState": false,
+    "~": "S12"
+  },
+  "S12": {
+    "isTerminatingState": false,
+    "o": "S13"
+  },
+  "S13": {
+    "isTerminatingState": false,
+    "~": "S14"
+  },
+  "S14": {
+    "isTerminatingState": false,
+    "j": "S15"
+  },
+  "S15": {
+    "isTerminatingState": false,
+    "~": "S16"
+  },
+  "S16": {
+    "isTerminatingState": false,
+    "o": "S17"
+  },
+  "S17": {
+    "isTerminatingState": false,
+    "~": "S18"
+  },
+  "S18": {
+    "isTerminatingState": false,
+    "~": "S19"
+  },
+  "S19": {
+    "isTerminatingState": false,
+    "~": [
+      "S20",
+      "S38"
+    ]
+  },
+  "S20": {
+    "isTerminatingState": false,
+    "~": [
+      "S21",
+      "S29"
+    ]
+  },
+  "S21": {
+    "isTerminatingState": false,
+    "h": "S22"
+  },
+  "S22": {
+    "isTerminatingState": false,
+    "~": "S23"
+  },
+  "S23": {
+    "isTerminatingState": false,
+    "e": "S24"
+  },
+  "S24": {
+    "isTerminatingState": false,
+    "~": "S25"
+  },
+  "S25": {
+    "isTerminatingState": false,
+    "b": "S26"
+  },
+  "S26": {
+    "isTerminatingState": false,
+    "~": "S27"
+  },
+  "S27": {
+    "isTerminatingState": false,
+    "a": "S28"
+  },
+  "S28": {
+    "isTerminatingState": false,
+    "~": "S37"
+  },
+  "S29": {
+    "isTerminatingState": false,
+    "j": "S30"
+  },
+  "S30": {
+    "isTerminatingState": false,
+    "~": "S31"
+  },
+  "S31": {
+    "isTerminatingState": false,
+    "o": "S32"
+  },
+  "S32": {
+    "isTerminatingState": false,
+    "~": "S33"
+  },
+  "S33": {
+    "isTerminatingState": false,
+    "j": "S34"
+  },
+  "S34": {
+    "isTerminatingState": false,
+    "~": "S35"
+  },
+  "S35": {
+    "isTerminatingState": false,
+    "o": "S36"
+  },
+  "S36": {
+    "isTerminatingState": false,
+    "~": "S37"
+  },
+  "S37": {
+    "isTerminatingState": false,
+    "~": [
+      "S20",
+      "S38"
+    ]
+  },
+  "S38": {
     "isTerminatingState": true
   }
 }

@@ -63,6 +63,7 @@ def constructNFA(input ) :
     return stack_NFA[0] 
 
 def ThomsonsConstruction (input : str) -> NFA : 
+    print(input)
     shunting_yard = shuntingYard(input) 
     print("Shunting Yard : ",shunting_yard)
     nfa = constructNFA(shunting_yard) 

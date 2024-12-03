@@ -6,7 +6,7 @@ def is_alphanumeric(char):
 
 def read_input_file(file_name):
     with open(file_name) as f:
-        return f.read().strip()  
+        return f.read() 
     
 def write_output_to_file(file_name, content):
    
@@ -26,12 +26,17 @@ def rename(dfa) :
         counter += 1
     return dfa 
 
-def validate_input(input:str) : 
+def validate_input(inn:str) : 
+    input = inn
     if not input : 
         return False
     # check for the substring () or [] 
-    if input.find('()') != -1 or input.find('[]') != -1 : 
+    if input.find('()') != -1 or input.find('[]') != -1 or input.find('??') != -1 or input.find('++') != -1 or input.find('**') != -1 or input.find('||') != -1: 
         return False
+    # check if the regex starts with * or + or | or ? or ends with |
+    if input[0] in {'*','+','|','?'} or input[-1] in {'|'} : 
+        return False
+    
     for i,char in enumerate(input) : 
         if not is_alphanumeric(char) : 
             if char =='-' : 
@@ -43,6 +48,11 @@ def validate_input(input:str) :
                     return False
             elif char not in {'+','*','|','(',')',']','[','?','.'}:
                 return False  
+            # check if the user enteres a|nothing or nothing|a or nothing* or nothing+  or ++ or **
+            if char == '|' :
+                # check its not followed by | or ) or ] or * or + or ? or | or nothing 
+                if i == len(input)-1 or input[i+1] in {')',']','*','+','?'} : 
+                    return False
     stack = []
     for char in input : 
         if char in {'(','['} : 
