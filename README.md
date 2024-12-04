@@ -6,7 +6,7 @@ A complete implementation of a regex compiler that processes regular expressions
 ---
 ### Project Structure
 ```
-THOMPSON-S-CONSTRUCTION-ALGORITHM/
+Regex-To-minimized-DFA/
 ├── code/                  # Source code directory
 │   ├── Utils.py           # Common functions used in different modules
 │   ├── shunting_yard.py   # Shunting-yard algorithm
