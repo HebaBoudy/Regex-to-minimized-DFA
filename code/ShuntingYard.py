@@ -46,7 +46,7 @@ def preprocessing(input : str) :
         else:
             step_1 += char
         i += 1
-    print("Input after step 1:", step_1)
+   
 
     # Step 2: Replace one or more symbol '+'
     step_2 = ""
@@ -70,10 +70,10 @@ def preprocessing(input : str) :
             step_2 += char
         i += 1
 
-    print("Input after step 2:", step_2)
+
     # Step 3 : Add concat symbol before every [ or (  if they are not at the start of the regex and they are not preceded by ?  and they are not followed by nested brackets (( )) there should not be concat inside 
     # and not preceded by [ or (   
-    print("input after step 2:",step_2)
+   
     step_3 = ""
     for i,char in enumerate(step_2) : 
         if i != 0 and step_2[i-1] != '?' and  step_2[i-1] != '|' and (((char == '[' or char == '(' ) and (step_2[i-1] != '[' and step_2[i-1]  != '(' )) ) : 
@@ -81,7 +81,7 @@ def preprocessing(input : str) :
         else : 
             step_3 += char 
     # Step 4 : Add concat symbol after every ] or ) if they are not the end of regex OR they are not followed by * and not followed by ?and they are not followed by nested brackets (( )) there should not be concat inside 
-    print("input after step 3:",step_3)
+  
     
     step_4 = ""
     for i,char in enumerate(step_3) : 
@@ -90,7 +90,7 @@ def preprocessing(input : str) :
         else : 
             step_4 += char 
     # Step 5 : Add concat after every * if its not the end of regex and its not follwed by star and not followed by ) and not followed by |
-    print("input after step 4:",step_4)
+  
     
     step_5 = ""
     for i,char in enumerate(step_4) : 
@@ -102,7 +102,7 @@ def preprocessing(input : str) :
     # but skip concatenation for characters inside square brackets
     step_6 = ""
     inside_square_brackets = False
-    print("input after step 5:",step_5)
+  
 
     for i, char in enumerate(step_5):
         if char == '[':
@@ -120,7 +120,7 @@ def preprocessing(input : str) :
             step_6 += char + '?'  # Add concat symbol
         else:
             step_6 += char
-    print("Step 6:",step_6)
+
     return (split_input(step_6))
 
 '''
@@ -132,7 +132,7 @@ and parentheses during computation.
 def shuntingYard(input) :
 
     input = preprocessing(input)
-    print("Preprocessed input:",input)
+    
     precedence_dict = {'*': 3, '?': 2, '|': 1}
     out =[]
     operator_stack = []
@@ -167,8 +167,8 @@ def shuntingYard(input) :
                 if operator == '(':
                     break
                 out.append(operator)
-        # print ("parsing char :",char,"output:",out,"stack",operator_stack)
-        # print("************************")
+      
     out.extend(operator_stack[::-1]) 
-    # print ("Final out :",out)
+ 
+    
     return out 

@@ -30,7 +30,7 @@ def create_transition_dict(subgroup: Set[DFAState],  groups: List[Set[DFAState]]
 
 def partition_groups_based_on_transitions(groups : List[Set[DFAState]]) -> List[Set[DFAState]]:
     new_groups : List[Set[DFAState]] =  [] 
-    print("total groups before partinioning :" ,len(groups))
+   
     for i, group in enumerate(groups) : 
         transitions_dict: Dict[Tuple[str, ...], Set[str]] = {}
         for state in group:
@@ -95,15 +95,11 @@ def minimizeDFA(dfa : DFA) -> DFA:
             for  states in transition_dict.values():
                 new_groups.append(states)
         if new_groups == groups:
-            print("Groups have stabilized, exiting.")
+          
             break
         groups = new_groups
-    print("dfa start state",dfa.start_state)
     start_state = dfa.start_state
     start_state_group_index = get_group_index(start_state, groups)
     new_dfa=convertGroupsToDFA(groups,start_state_group_index) 
     return new_dfa
-#print (minimizeDFA(dfa))
-# print(len(minimizeDFA(dfa)))
-# visualize_nfa(renameDFA(minimizeDFA(dfa)).to_dict())
-# visualize_nfa(dfa.to_dict())
+

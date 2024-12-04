@@ -36,7 +36,7 @@ def subsetConstruction(nfa : NFA) -> DFA :
                     else : 
                         transitions_dict[transition.input].append(transition.destination)
        
-       # print("dictionary of transitions :",transitions_dict)
+      
         for key , value in transitions_dict.items() : 
             epsilon_closures : Set[State] = set()
 
@@ -53,9 +53,4 @@ def subsetConstruction(nfa : NFA) -> DFA :
 
             current_dfa_state.add_transition(key, new_dfa_state) 
     return dfa 
-# dfa = subsetConstruction(nfa) 
-#print (dfa)
 
-
-# print("hello",(dfa.states[0].transitions))
-# print("**************")

@@ -76,7 +76,7 @@ def visualize(nfa_json , filename : str):
 
     # Add states to the graph
     start_state = nfa_json.get("startingState")
-    print("inside visualize :",start_state)
+ 
     for state_name, state_info in nfa_json.items():
         if state_name == "startingState":
             continue
