@@ -125,6 +125,7 @@ The constructed dictionary from the previous subgroup will be as follows :
 **note that** : key[0] is the first input (in this case a) and key[1] is the second input (in this case b).
 **why is this working** ? because we have made a pass that partitioned groups based on its transitions and we sorted the transition so now we are sure that each subgroup have the same input transitions.
 
+---
 7) repeat the process until all groups have stablized 
 ### Requirements
 To run this project, you'll need to install the following dependencies:
