@@ -47,7 +47,7 @@ code/
     ├── nfa.json
     └── minimized_dfa.json
 ```
-
+---
 ## Modules Summary 🚀
 
 | **Module**                        | **Description**                                                               |
@@ -58,10 +58,11 @@ code/
 | **Subset Construction Module**     | Converts NFA to DFA using the subset construction algorithm.                             |
 | **DFA Minimization Module**        | Optimizes the DFA by reducing redundant states.                              |
 
+
+![Workflow Diagram](workflow.drawio.png) 
+
 ---
-![Workflow Diagram](workflow.drawio.png)
----
-### Modules in Detail
+## Modules in Detail
 
 ### 1. Preprocessing Module ✂️
 The Shunting Yard algorithm expects only specific operands: logical OR (|), concatenation, and zero or more (*). The Preprocessing Module ensures that the user input is transformed into a format compatible with these operands.
@@ -72,7 +73,7 @@ For example :
 3. The a? operator (zero or more) is converted to (a|ε) to represent zero or more occurrences of a.
 4. Additionally, square brackets [] are treated as a single unit, preserving the grouping of characters inside.
 
-
+---
 
 ### 2. Shunting Yard Algorithm 🏗️
 The algorithm is implemented following [this article](https://gregorycernera.medium.com/converting-regular-expressions-to-postfix-notation-with-the-shunting-yard-algorithm-63d22ea1cf88)
